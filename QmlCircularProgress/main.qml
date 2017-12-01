@@ -20,8 +20,9 @@ ApplicationWindow {
         anchors.centerIn: parent
         arcWidth: 3
         radius: 100
+        // progress: 45
         interval: 1
-        arcColor: "#148014"
+        arcColor: "#6ACD07"
     }
 
     Button{

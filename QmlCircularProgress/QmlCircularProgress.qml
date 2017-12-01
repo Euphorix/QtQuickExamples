@@ -8,22 +8,25 @@
 import QtQuick 2.4
 
 Canvas {
-    property color arcColor: "#148014"
+    id: canvas
+
+    property color arcColor: "#6ACD07"
     property color arcBackgroundColor: "#AAAAAA"
     property int arcWidth: 2
+    property int angleStart: 135
+    property int arcAngle: 270
     property real progress: 0
     property real radius: 100
     property bool anticlockwise: false
     property alias interval: timer.interval
 
-    id: canvas
     width: 2*radius + arcWidth
     height: 2*radius + arcWidth
 
     Text{
         anchors.centerIn: parent
         font.pointSize: 15
-        text: Math.floor((parent.progress / 360) * 100 )+ "%"
+        text: Math.floor((parent.progress / arcAngle) * 100 )+ "%"
     }
 
     Timer{
@@ -33,7 +36,7 @@ Canvas {
         interval: 5
         onTriggered:{
             parent.progress++;
-            if (parent.progress > 360){
+            if (parent.progress > arcAngle){
                 onStop();
                 return;
             }
@@ -58,19 +61,24 @@ Canvas {
 
     onPaint: {
         var ctx = getContext("2d")
-        ctx.clearRect(0,0,width,height)
+        ctx.clearRect(0, 0, width, height)
+
+        var r1      = progress*Math.PI/180
+        var startR1 = angleStart*Math.PI/180
+        var endR1   = (angleStart+arcAngle)*Math.PI/180
         ctx.beginPath()
         ctx.strokeStyle = arcBackgroundColor
-        ctx.lineWidth = arcWidth
-        ctx.arc(width/2,height/2,radius,0,Math.PI*2,anticlockwise)
+        ctx.lineWidth   = arcWidth
+        ctx.arc(width/2, height/2, radius, startR1, endR1, anticlockwise)
         ctx.stroke()
 
-        var r = progress*Math.PI/180
+        var r2      = progress*Math.PI/180
+        var startR2 = angleStart*Math.PI/180
+        var endR2   = startR2+r2
         ctx.beginPath()
         ctx.strokeStyle = arcColor
-        ctx.lineWidth = arcWidth
-
-        ctx.arc(width/2,height/2,radius,0-90*Math.PI/180,r-90*Math.PI/180,anticlockwise)
+        ctx.lineWidth   = arcWidth
+        ctx.arc(width/2, height/2, radius, startR2, endR2, anticlockwise)
         ctx.stroke()
     }
 }
