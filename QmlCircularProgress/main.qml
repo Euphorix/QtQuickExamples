@@ -13,16 +13,17 @@ ApplicationWindow {
     visible: true
     width: 400
     height: 300
-    title: qsTr("Qml圆形进度条")
+    title: qsTr("AQI指数")
+    color: "#002B36"
 
     QmlCircularProgress{
         id: cProgress
         anchors.centerIn: parent
+        // progress: 353
+        valueMax: 200
         arcWidth: 3
         radius: 100
-        // progress: 45
-        interval: 1
-        arcColor: "#6ACD07"
+        interval: 100
     }
 
     Button{
